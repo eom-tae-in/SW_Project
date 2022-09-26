@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,11 +24,11 @@ public class SheetMusicFindResponseDto {
     private String nickName;
 
     @ApiModelProperty(notes = "악보 이미지", example = "images")
-    private List<ImageDto> images;
+    private List<SheetMusicPdf> pdfs;
 
 
     public static SheetMusicFindResponseDto toDto(SheetMusic sheetMusic) {
         return new SheetMusicFindResponseDto(sheetMusic.getTitle(), sheetMusic.getWriter(),
-                sheetMusic.getMember().getNickname(),sheetMusic.getPdfs().stream().map(i->ImageDto.toDto(i)).collect(Collectors.toList()));
+                sheetMusic.getMember().getNickname(),sheetMusic.getPdfs().stream().map(i-> SheetMusicPdf.toDto(i)).collect(Collectors.toList()));
     }
 }

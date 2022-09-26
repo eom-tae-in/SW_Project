@@ -38,7 +38,7 @@ public class Pdf extends EntityDate {
         }
     }
     private String generateUniqueName(String extension) {
-        return UUID.randomUUID().toString() + "." + extension; //originalname 아예 안보이게 설정한거임?
+        return UUID.randomUUID() + "." + extension; //originalname 아예 안보이게 설정한거임?
     }
     private String extractExtension(String originName) {
         try {

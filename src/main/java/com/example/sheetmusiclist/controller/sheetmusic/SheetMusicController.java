@@ -1,13 +1,12 @@
 package com.example.sheetmusiclist.controller.sheetmusic;
 
-
 import com.example.sheetmusiclist.dto.sheetmusic.SheetMusicCreateRequestDto;
 import com.example.sheetmusiclist.dto.sheetmusic.SheetMusicEditRequestDto;
-import com.example.sheetmusiclist.dto.sheetmusic.SheetMusicSearchRequestDto;
 import com.example.sheetmusiclist.entity.member.Member;
 import com.example.sheetmusiclist.exception.MemberNotFoundException;
 import com.example.sheetmusiclist.repository.member.MemberRepository;
 import com.example.sheetmusiclist.response.Response;
+import com.example.sheetmusiclist.service.s3.S3Service;
 import com.example.sheetmusiclist.service.sheetmusic.SheetMusicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,11 +16,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
+
 @Api(value = "SheetMusic Controller",tags = "SheetMusic")
 @RequiredArgsConstructor
 @RestController
@@ -30,6 +32,8 @@ public class SheetMusicController {
 
     private final SheetMusicService sheetMusicService;
     private final MemberRepository memberRepository;
+
+    private final S3Service s3Service;
 
     // 악보 등록
     @ApiOperation(value = "악보 등록", notes = "악보를 등록한다.")
@@ -64,6 +68,13 @@ public class SheetMusicController {
         return Response.success(sheetMusicService.findSheetMusic(id));
     }
 
+
+    // 다운로드 기능
+    @GetMapping("/sheetmusics/download/{fileName}")
+    public ResponseEntity<byte[]> download(@PathVariable String fileName) throws IOException {
+        return s3Service.getObject(fileName);
+    }
+
     //악보 제목으로 검색
     @ApiOperation(value = "악보 제목으로 검색 하기", notes = "악보 제목으로 검색하기.")
     @GetMapping("/sheetmusics/title/{title}")
@@ -94,7 +105,6 @@ public class SheetMusicController {
         Member member = memberRepository.findByUsername(authentication.getName()).orElseThrow(MemberNotFoundException::new);
 
         sheetMusicService.editSheetMusic(id, member, sheetMusicEditRequestDto);
-
         return Response.success("악보 수정 완료");
     }
 

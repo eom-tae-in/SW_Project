@@ -72,6 +72,7 @@ public class SheetMusic extends EntityDate {
     }
 
     private void deletePdfs(List<Pdf> deleted) {
+
         deleted.stream().forEach(id -> this.pdfs.remove(id));
     }
 

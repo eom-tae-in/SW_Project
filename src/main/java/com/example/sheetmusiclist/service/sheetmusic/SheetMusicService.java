@@ -1,21 +1,32 @@
 package com.example.sheetmusiclist.service.sheetmusic;
 
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.example.sheetmusiclist.dto.sheetmusic.*;
 import com.example.sheetmusiclist.entity.pdf.Pdf;
 import com.example.sheetmusiclist.entity.member.Member;
 import com.example.sheetmusiclist.entity.sheetmusic.SheetMusic;
 import com.example.sheetmusiclist.exception.MemberNotEqualsException;
 import com.example.sheetmusiclist.exception.SheetMusicNotFoundException;
+import com.example.sheetmusiclist.repository.pdf.PdfRepository;
 import com.example.sheetmusiclist.repository.sheetmusic.SheetMusicRepository;
 import com.example.sheetmusiclist.service.file.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -24,11 +35,33 @@ import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Service
+@PropertySource("classpath:pdf.properties")
 public class SheetMusicService {
 
     private final SheetMusicRepository sheetMusicRepository;
 
     private final FileService fileService;
+
+
+    private final ResourceLoader resourceLoader;
+
+    private final PdfRepository pdfRepository;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+    private final AmazonS3 amazonS3;
+
+
+    public void downloadS3Object(String s3Url) throws IOException {
+        Resource resource = resourceLoader.getResource(s3Url);
+        File downloadedS3Object = new File(resource.getFilename());
+
+        try (InputStream inputStream = resource.getInputStream()) {
+            Files.copy(inputStream, downloadedS3Object.toPath(),
+                    StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
 
     // 악보 등록
     @Transactional
@@ -91,25 +124,23 @@ public class SheetMusicService {
             // 로그인 유저(member)랑 이 악보 등록한 사람sheetMusic.getMember()이랑 같은지 다른지 비교
             throw new MemberNotEqualsException(); 
         }
-
         SheetMusic.PdfUpdatedResult result = sheetMusic.update(req);
         uploadPdfs(result.getAddedPdfs(), result.getAddedPdfFiles());
         deletePdfs(result.getDeletedPdfs());
-
     }
 
     // 악보 삭제
     @Transactional
     public void deleteSheetMusic(Long id, Member member) {
-
         SheetMusic sheetMusic = sheetMusicRepository.findById(id).orElseThrow(SheetMusicNotFoundException::new);
 
         if (!sheetMusic.getMember().getNickname().equals(member.getNickname())) {
             throw new MemberNotEqualsException();
         }
+        List<Pdf> pdfs = pdfRepository.findAllBySheetMusic(sheetMusic);
 
+        deletePdfs(pdfs);
         sheetMusicRepository.deleteById(id);
-
     }
 
     //requestDto로 들어온 pdf는 multipartfiles인데 이를 stream으로 Pdf엔티디의 데이터 타입으로
@@ -121,10 +152,10 @@ public class SheetMusicService {
     }
 
     private void deletePdfs(List<Pdf> pdfs) {
-        pdfs.stream().forEach(i -> fileService.delete(i.getUniqueName()));
+        pdfs.stream().forEach(i -> amazonS3.deleteObject(bucket, i.getUniqueName()));
     }
-
 }
+
 
 
 
