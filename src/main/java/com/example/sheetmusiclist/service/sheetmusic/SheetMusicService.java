@@ -152,9 +152,12 @@ public class SheetMusicService {
     }
 
     private void deletePdfs(List<Pdf> pdfs) {
-        pdfs.stream().forEach(i -> amazonS3.deleteObject(bucket, i.getUniqueName()));
+        pdfs.stream().forEach(i -> fileService.delete(i.getUniqueName()));
     }
+
+
 }
+
 
 
 

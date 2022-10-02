@@ -33,14 +33,15 @@ public class LocalFileService implements FileService {
             // 수정 -> 추가, 삭제
         }
         catch (IOException e){
-            System.out.println(e.getMessage());
             throw new FileUploadFailureException();
         }
     }
 
     @Override
     public void delete(String filename) {
-        amazonS3.deleteObject(bucket,filename);
+
+        amazonS3.deleteObject(bucket, filename);
+
     }
 }
 
