@@ -39,7 +39,7 @@ public class ReviewService {
     public void editReview(Member member, Long reviewid, ReviewEditRequestDto req) {
        Review review = reviewRepository.findById(reviewid).orElseThrow(ReviewNotFoundException::new);
 
-        if (!member.getNickname().equals(review.getMember().getNickname())) {
+        if (!member.getEmail().equals(review.getMember().getEmail())) {
             throw new MemberNotEqualsException();
         }
         review.editReview(req.getComment(), req.getRate());
@@ -47,12 +47,12 @@ public class ReviewService {
 
     //리뷰 전체 조회(by 악보)
     @Transactional(readOnly = true)
-    public List<ReviewfindResponseDto> findReviews(Pageable pageable,Long id){
+    public List<ReviewFindResponseDto> findReviews(Pageable pageable, Long id){
         SheetMusic sheetmusic = sheetMusicRepository.findById(id).orElseThrow(SheetMusicNotFoundException::new);
         Page<Review> reviews = reviewRepository.findAllBySheetmusic(sheetmusic,pageable);
-        List<ReviewfindResponseDto> result = new ArrayList<>();
+        List<ReviewFindResponseDto> result = new ArrayList<>();
         for (Review review : reviews) {
-            result.add(ReviewfindResponseDto.toDto(review));
+            result.add(ReviewFindResponseDto.toDto(review));
         }
         return result;
     }
@@ -61,7 +61,7 @@ public class ReviewService {
     public void deleteReview(Long id, Member member){
        Review review = reviewRepository.findById(id).orElseThrow(ReviewNotFoundException::new);
 
-        if (!member.getNickname().equals(review.getMember().getNickname())) {
+        if (!member.getEmail().equals(review.getMember().getEmail())) {
             throw new MemberNotEqualsException();
         }
         reviewRepository.delete(review);

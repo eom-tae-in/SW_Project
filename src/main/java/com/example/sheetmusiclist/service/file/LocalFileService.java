@@ -40,7 +40,6 @@ public class LocalFileService implements FileService {
 
     @Override
     public void delete(String filename) {
-        System.out.println(filename+"hihihihihhhihihihii");
         amazonS3.deleteObject(bucket,filename);
     }
 }

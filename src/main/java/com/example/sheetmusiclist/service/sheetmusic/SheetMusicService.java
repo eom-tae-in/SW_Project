@@ -134,7 +134,7 @@ public class SheetMusicService {
     public void deleteSheetMusic(Long id, Member member) {
         SheetMusic sheetMusic = sheetMusicRepository.findById(id).orElseThrow(SheetMusicNotFoundException::new);
 
-        if (!sheetMusic.getMember().getNickname().equals(member.getNickname())) {
+        if (!sheetMusic.getMember().getEmail().equals(member.getEmail())) {
             throw new MemberNotEqualsException();
         }
         List<Pdf> pdfs = pdfRepository.findAllBySheetMusic(sheetMusic);

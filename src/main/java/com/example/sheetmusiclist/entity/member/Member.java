@@ -22,42 +22,17 @@ public class Member extends EntityDate {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false, unique = true, length = 20)
-    private String nickname;
-
     @Column(nullable = false, unique = true, length = 30)
     private String email;
-
-    @Column(nullable = false, unique = true, length = 20)
-    private String phone;
-
-    @Column(nullable = false, length = 50)
-    private String address;
-
-    @Column(nullable = false)
-    private int money;
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
     @Builder
-    public Member(String username, String password, String name, String nickname, String email, String phone, String address, Authority authority) {
+    public Member(String username, String password, String email, Authority authority) {
         this.username = username;
         this.password = password;
-        this.name = name;
-        this.nickname = nickname;
         this.email = email;
-        this.phone = phone;
-        this.address = address;
         this.authority = authority;
-        this.money = 0;
     }
-
-    public void setMoney(int money) {
-        this.money = money;
-    }
-    //git checkout plz plz omg
 }

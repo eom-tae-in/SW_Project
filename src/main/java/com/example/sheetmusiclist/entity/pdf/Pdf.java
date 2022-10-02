@@ -25,7 +25,7 @@ public class Pdf extends EntityDate {
     @JoinColumn(name = "sheetMusic_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private SheetMusic sheetMusic;
-    private final static String supportedExtension[] = {"pdf"};
+    private final static String supportedExtension[] = {"pdf", "jpg", "jpeg", "gif", "bmp", "png"};
     public Pdf(String originName) {
         // 세팅
         this.originName = originName;

@@ -10,12 +10,10 @@ import lombok.NoArgsConstructor;
 @Data
 public class MemberSimpleResDto {
     private Long id;
-    private String nickname;
-    private String phone;
     private String email;
     // 추후에 평점 달기
 
     public MemberSimpleResDto toDto(Member member) {
-        return new MemberSimpleResDto(member.getId(), member.getNickname(), member.getPhone(), member.getEmail());
+        return new MemberSimpleResDto(member.getId(), member.getEmail());
     }
 }

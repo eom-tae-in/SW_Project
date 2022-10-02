@@ -41,10 +41,6 @@ public class SignService {
                 .username(req.getUsername())
                 .password(passwordEncoder.encode(req.getPassword()))
                 .email(req.getEmail())
-                .name(req.getName())
-                .nickname(req.getNickname())
-                .phone(req.getPhone())
-                .address(req.getAddress())
                 .authority(Authority.ROLE_USER)
                 .build();
 
@@ -59,10 +55,6 @@ public class SignService {
                 .username(req.getUsername())
                 .password(passwordEncoder.encode(req.getPassword()))
                 .email(req.getEmail())
-                .name(req.getName())
-                .nickname(req.getNickname())
-                .phone(req.getPhone())
-                .address(req.getAddress())
                 .authority(Authority.ROLE_USER)
                 .build();
 
@@ -115,14 +107,8 @@ public class SignService {
         if (memberRepository.existsByUsername(req.getUsername())) {
             throw new MemberUsernameAlreadyExistsException(req.getUsername());
         }
-        if (memberRepository.existsByNickname(req.getNickname())) {
-            throw new MemberNicknameAlreadyExistsException(req.getNickname());
-        }
         if (memberRepository.existsByEmail(req.getEmail())) {
             throw new MemberEmailAlreadyExistsException(req.getEmail());
-        }
-        if (memberRepository.existsByPhone(req.getPhone())) {
-            throw new MemberPhoneAlreadyExistsException(req.getPhone());
         }
     }
 
