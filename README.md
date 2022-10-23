@@ -75,3 +75,13 @@ docs : 주석 추가 삭제, 문서 변경
 악보 리스트 페이지
 
 ![image](https://user-images.githubusercontent.com/101633465/197374267-3df51cc1-6e2c-4b4c-97b3-ad31b40029a9.png)
+
+# 8. Docker
+
+Dockerfile
+
+![image](https://user-images.githubusercontent.com/101633465/197375444-0ffd07ba-6892-4d7d-ae76-f227f71bf2cc.png)
+
+docker-compose.yml
+
+![image](https://user-images.githubusercontent.com/101633465/197375496-bf12d913-7062-4bce-ada3-19b030d21a97.png)
