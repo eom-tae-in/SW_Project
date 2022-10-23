@@ -56,19 +56,22 @@ docs : 주석 추가 삭제, 문서 변경
 # 7. 피그마
 
 회원가입
-![img_3.png](img_3.png)
 
-로그인 
-![img_2.png](img_2.png)
+![image](https://user-images.githubusercontent.com/101633465/197374208-e78363cf-c50e-4917-b22c-0e371da0bddc.png)
 
-악보 변환 화면
-![img_1.png](img_1.png)
+로그인
 
-악보 변환 진행 중 화면
-![img_4.png](img_4.png)
+![image](https://user-images.githubusercontent.com/101633465/197374181-b0e3c633-cb87-431d-ace5-7ceef894d379.png)
 
-악보 리스트 페이지
-![img_6.png](img_6.png)
+악보 변환
+
+![image](https://user-images.githubusercontent.com/101633465/197374222-8bef99b3-9e42-408a-a47e-c0e978959898.png)
 
 악보 등록 화면
-![img_5.png](img_5.png)
+
+![image](https://user-images.githubusercontent.com/101633465/197374247-9dfcaed1-fb67-43d0-b485-e9b80c809aab.png)
+
+
+악보 리스트 페이지
+
+![image](https://user-images.githubusercontent.com/101633465/197374267-3df51cc1-6e2c-4b4c-97b3-ad31b40029a9.png)
