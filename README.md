@@ -25,6 +25,8 @@
 - TCP (Transmission Control Protocol) + CIA (Confidentiality, Integrity, Availability) + RSA + RFC
 - yml
 - JWT Filter
+- Docker, Docket-compose
+- MySQL
 ---
 # 5. Progress
 | **Completed** |
@@ -51,3 +53,22 @@ style : formatting, 세미콜론 추가 / 코드 변경은 없음
 chore : 라이브러리 설치, 빌드 작업 업데이트
 docs : 주석 추가 삭제, 문서 변경
 ```
+# 7. 피그마
+
+회원가입
+![img_3.png](img_3.png)
+
+로그인 
+![img_2.png](img_2.png)
+
+악보 변환 화면
+![img_1.png](img_1.png)
+
+악보 변환 진행 중 화면
+![img_4.png](img_4.png)
+
+악보 리스트 페이지
+![img_6.png](img_6.png)
+
+악보 등록 화면
+![img_5.png](img_5.png)
